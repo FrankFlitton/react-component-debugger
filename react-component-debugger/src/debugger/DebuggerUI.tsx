@@ -5,35 +5,41 @@ import { getReactContainer } from "./utils/getReactContainer";
 import { getFibreTree } from "./utils/getFibreTree";
 
 export const DebuggerUI: React.FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [containers, setContainers] = React.useState<Record<string, any>[]>([]);
 
+  const doInit = () => {
+    const root = getReactRoot();
+    const rContainer = getReactContainer(root) || "";
+    console.log(rContainer);
+    if (!rContainer) {
+      setContainers([]);
+      return;
+    }
+    const [list] = getFibreTree(rContainer);
+    console.log(list);
+    setContainers(list);
+  };
+
   useLayoutEffect(() => {
-    setTimeout(() => {
-      const root = getReactRoot();
-      const rContainer = getReactContainer(root) || "";
-      console.log(rContainer);
-      const tree = getFibreTree(rContainer);
-      console.log(tree);
-      setContainers(tree);
-    }, 1000);
+    doInit();
   }, []);
-  // if (rContainer) {
-  // setContainer(JSON.stringify(rContainer || "", null, "\t"));
-  // }
-  // }, []);
 
   return (
     <Panel>
+      <button onClick={() => doInit()}>
+        Refresh
+      </button>
       <ul>
         {containers &&
           containers
-            // .filter((c) => c.isDom)
+            .filter((c) => c.isDom)
             .map((c) => {
               return (
                 <li>
-                  <pre>c.type</pre>
-                  {"\t"}
-                  <pre>{c.type}</pre>
+                  c.type:{"\t"}
+                  {c.type} —
+                  {c.nodeId}
                   <pre>elementType</pre>
                   {"\t"}
                   <pre>{c.elementType}</pre>
