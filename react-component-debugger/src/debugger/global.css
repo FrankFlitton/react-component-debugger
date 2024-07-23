@@ -1,3 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.__debugger_ui_root {
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+}

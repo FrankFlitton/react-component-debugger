@@ -6,6 +6,8 @@ import { getFibreTree } from "./utils/getFibreTree";
 import { TreeNodeContext } from "./contexts/TreeNodeContext";
 import { TreeView } from "./components/TreeView";
 import { TreeNode } from "./types/types";
+import TopBar from "./components/TopBar";
+import DarkModeToggle from "./components/DarkModeToggle";
 
 export const DebuggerUI: React.FC = () => {
   const { treeNodes, addNode } = useContext(TreeNodeContext);
@@ -45,8 +47,10 @@ export const DebuggerUI: React.FC = () => {
 
   return (
     <Panel>
-      <button onClick={() => doInit()}>Refresh</button>
-      <hr />
+      <TopBar>
+        <button onClick={() => doInit()}>Refresh</button>
+        <DarkModeToggle />
+      </TopBar>
       {rootNode && <TreeView nodeId={rootNode.nodeId} />}
       {/* <ul>
         {treeNodes &&
