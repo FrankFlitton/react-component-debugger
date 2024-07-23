@@ -21,6 +21,9 @@ const getReactFibreNodeInfo = (reactFibreNode: any) => {
       reactFibreNode.elementType?.name ||
       reactFibreNode.elementType?.constructor?.name ||
       reactFibreNode.elementType?.toString?.();
+    if (elementType === "Symbol") {
+      elementType = reactFibreNode.elementType.toString();
+    }
   } else {
     elementType = reactFibreNode.elementType?.toString?.();
   }
@@ -66,7 +69,7 @@ export const getFibreTree = (root: any) => {
     }
 
     const nodeData = getReactFibreNodeInfo(node);
-    nodeData.nodeId = nodeData.nodeId || `index-${index}`
+    nodeData.nodeId = nodeData.nodeId || `index-${index}`;
 
     if (seen.has(nodeData.nodeId)) {
       continue;
@@ -74,11 +77,12 @@ export const getFibreTree = (root: any) => {
       seen.add(nodeData.nodeId);
     }
 
-    const children = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    nodeData.childIds = [];
 
     if (
-      nodeData.type !== "DebuggerUI" &&
-      nodeData.elementType !== "DebuggerUI"
+      nodeData.type !== "DebuggerApp" &&
+      nodeData.elementType !== "DebuggerApp"
     ) {
       if (node.sibling) {
         queue.push(node.sibling);
@@ -88,16 +92,15 @@ export const getFibreTree = (root: any) => {
       if (node.child) {
         let child = node.child;
         while (child) {
-          queue.push(child);
-          children.push(child);
+          // console.log(nodeData.nodeId, elemToSelector(child), child);
+          if (child) {
+            const id = getReactFibreNodeInfo(child)?.nodeId || elemToSelector(child);
+            nodeData.childIds.push(id);
+            queue.push(child);
+          }
           child = child.sibling;
         }
-
-        children.push(node.child);
       }
-
-      const childrenIds = children.map((c) => elemToSelector(c.stateNode));
-      nodeData.childIds = childrenIds;
 
       list.push(nodeData);
     }

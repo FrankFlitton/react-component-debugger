@@ -3,45 +3,55 @@ import React, { createContext, useState, ReactNode } from "react";
 import { TreeNode } from "../types/types";
 
 interface TreeNodeContextProps {
-  nodes: TreeNode[];
+  treeNodes: TreeNode[];
   addNode: (node: TreeNode) => void;
   removeNode: (id: string) => void;
   getNode: (id: string) => TreeNode | undefined;
-  getNodeChildren: (id: string) => TreeNode[];
+  getParentNode: (id: string) => TreeNode[];
 }
 
-const LinkedListContext = createContext<TreeNodeContextProps | undefined>(
-  undefined
-);
+const TreeNodeContext = createContext<TreeNodeContextProps>({
+  treeNodes: [],
+  addNode: () => {},
+  removeNode: () => {},
+  getNode: () => undefined,
+  getParentNode: () => [],
+});
 
-const LinkedListProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
-  const [nodes, setNodes] = useState<TreeNode[]>([]);
+const TreeNodeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [treeNodes, setTreeNodes] = useState<TreeNode[]>([]);
 
   const addNode = (node: TreeNode) => {
-    setNodes((prevNodes) => [...prevNodes, node]);
+    const inx = treeNodes.findIndex((n) => n.nodeId === node.nodeId);
+    setTreeNodes((prevNodes) => {
+      const data = [...prevNodes];
+      if (inx > -1) {
+        data[inx] = node;
+        return data;
+      }
+      return [...prevNodes, node];
+    });
   };
 
   const removeNode = (id: string) => {
-    setNodes((prevNodes) => prevNodes.filter((node) => node.nodeId !== id));
+    setTreeNodes((prevNodes) => prevNodes.filter((node) => node.nodeId !== id));
   };
 
   const getNode = (id: string) => {
-    return nodes.find((node) => node.nodeId === id);
+    return treeNodes.find((node) => node.nodeId === id);
   };
 
-  const getNodeChildren = (id: string) => {
-    return nodes.filter((node) => node.childIds.includes(id));
+  const getParentNode = (id: string) => {
+    return treeNodes.filter((node) => node.childIds.includes(id));
   };
 
   return (
-    <LinkedListContext.Provider
-      value={{ nodes, addNode, removeNode, getNode, getNodeChildren }}
+    <TreeNodeContext.Provider
+      value={{ treeNodes, addNode, removeNode, getNode, getParentNode }}
     >
       {children}
-    </LinkedListContext.Provider>
+    </TreeNodeContext.Provider>
   );
 };
 
-export { LinkedListContext, LinkedListProvider };
+export { TreeNodeContext, TreeNodeProvider };
