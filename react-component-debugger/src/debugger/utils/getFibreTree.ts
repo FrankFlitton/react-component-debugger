@@ -1,3 +1,4 @@
+import { TreeNode } from "../types/types";
 import { elemToSelector } from "./elementToSelector";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -33,7 +34,7 @@ const getReactFibreNodeInfo = (reactFibreNode: any) => {
 
   const nodeId = elemToSelector(reactFibreNode.stateNode);
 
-  const nodeData = {
+  const nodeData: TreeNode = {
     nodeId,
     elementType: !isText ? elementType || debugType || "null" : "string",
     type: type || "null",
