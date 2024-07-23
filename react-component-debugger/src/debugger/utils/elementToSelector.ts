@@ -1,3 +1,4 @@
+// https://stackoverflow.com/questions/42184322/javascript-get-element-unique-selector
 export const elemToSelector = (elem: Element | HTMLElement | null): string => {
   if (!elem) return "";
 
