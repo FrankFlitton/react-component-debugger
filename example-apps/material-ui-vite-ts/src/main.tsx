@@ -8,10 +8,12 @@ import { DebuggerApp } from "react-component-debugger";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
-    <DebuggerApp />
+    <>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
+      <DebuggerApp />
+    </>
   </React.StrictMode>
 );

@@ -4,7 +4,7 @@ export const getReactContainer = (nativeElement: Element) => {
   // _reactListeninggmo0epq70dp
   // __reactContainer$lmazt05fqp
   const reactContainer =
-    rKeys.find((key) => key.startsWith("__reactContainer")) || "";
+    rKeys.find((key) => key.startsWith("__reactContainer") || key.startsWith("__reactFiber")) || "";
 
   if (!reactContainer) {
     console.error("React container not found");

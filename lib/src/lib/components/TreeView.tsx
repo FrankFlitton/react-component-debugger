@@ -49,7 +49,7 @@ export const TreeView = ({ nodeId }: { nodeId: string }) => {
         ) : (
           <span className="pr-2 opacity-80">•</span>
         )}
-        <button className={`text-${color}`}>
+        <button className={`text-${color}`} onClick={() => console.log(treeNode)}>
           type: {treeNode?.elementType || treeNode?.type}
         </button>
         {open && (

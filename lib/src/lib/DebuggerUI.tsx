@@ -8,6 +8,7 @@ import { TreeView } from "./components/TreeView";
 import { TreeNode } from "./types/types";
 import TopBar from "./components/TopBar";
 import DarkModeToggle from "./components/DarkModeToggle";
+import "./index.css";
 
 export const DebuggerUI: React.FC = () => {
   const { treeNodes, addNode } = useContext(TreeNodeContext);
@@ -18,23 +19,24 @@ export const DebuggerUI: React.FC = () => {
   const doInit = () => {
     const root = getReactRoot();
     const rContainer = getReactContainer(root) || "";
-    console.log(rContainer);
+    console.log("rContainer", rContainer);
     if (!rContainer) {
       return;
     }
     const [list] = getFibreTree(rContainer);
 
-    if (list.length > 0) {
-      const constFirstNonCreateRoot = list.find(
-        (f) =>
-          f.elementType !== "createRoot()" &&
-          f.elementType !== "Symbol(react.strict_mode)"
-      );
-      setRootNode(constFirstNonCreateRoot);
-    }
-
     for (const node of list) {
       addNode(node);
+    }
+
+    if (list.length > 0) {
+      // const constFirstNonCreateRoot = list.find(
+      //   (f) =>
+      //     f.elementType !== "createRoot()" &&
+      //     f.elementType !== "Symbol(react.strict_mode)"
+      // );
+      const constFirstNonCreateRoot = list[0];
+      setRootNode(constFirstNonCreateRoot);
     }
   };
 
@@ -43,7 +45,7 @@ export const DebuggerUI: React.FC = () => {
   }, []);
 
   console.log("rootNode", rootNode);
-  console.log(treeNodes);
+  console.log("treeNodes", treeNodes);
 
   return (
     <Panel>
@@ -52,10 +54,11 @@ export const DebuggerUI: React.FC = () => {
         <DarkModeToggle />
       </TopBar>
       {rootNode && <TreeView nodeId={rootNode.nodeId} />}
-      {/* <ul>
+      <br />
+      <ul>
         {treeNodes &&
           treeNodes
-            .filter((c) => c.isDom)
+            // .filter((c) => c.isDom)
             .map((c) => {
               return (
                 <li>
@@ -67,7 +70,7 @@ export const DebuggerUI: React.FC = () => {
                 </li>
               );
             })}
-      </ul> */}
+      </ul>
     </Panel>
   );
 };

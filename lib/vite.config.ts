@@ -32,7 +32,7 @@ const app = async (): Promise<UserConfigExport> => {
     ],
     css: {
       postcss: {
-        plugins: [tailwindcss],
+        plugins: [tailwindcss()],
       },
     },
     server: {
@@ -43,7 +43,7 @@ const app = async (): Promise<UserConfigExport> => {
       minify: true,
       reportCompressedSize: true,
       lib: {
-        entry: path.resolve(__dirname, "src/lib/index.ts"),
+        entry: [path.resolve(__dirname, "src/lib/index.ts")],
         name: formattedName,
         // formats: ["es", "umd"],
         formats: ["es"],

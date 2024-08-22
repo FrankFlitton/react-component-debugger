@@ -1,6 +1,6 @@
 import { DebuggerUI } from "./DebuggerUI";
 import { TreeNodeProvider } from "./contexts/TreeNodeContext";
-import "./global.css";
+import "./index.css";
 
 export interface DebuggerAppProps {
   // TODO

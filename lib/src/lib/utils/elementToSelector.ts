@@ -11,7 +11,7 @@ export const elemToSelector = (elem: Element | HTMLElement | null): string => {
   str += id !== "" ? `#${id}` : "";
 
   if (className) {
-    const classes = className.split(/\s/);
+    const classes = `${className}`.split(/\s/);
     for (let i = 0; i < classes.length; i++) {
       str += `.${classes[i]}`;
     }

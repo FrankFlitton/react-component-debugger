@@ -2,6 +2,7 @@
 export type TreeNode = {
   nodeId: string;
   elementType: string;
+  debugFirstTimeStamp: string;
   type: string;
   isDom: boolean;
   isText: boolean;

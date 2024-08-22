@@ -2,6 +2,17 @@ import { TreeNode } from "../types/types";
 import { elemToSelector } from "./elementToSelector";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getNodeId = (stateNode: any, node: any) => {
+  return stateNode
+    ? elemToSelector(stateNode)
+    : `${node?.elementType?.$$typeof?.toString()}_${
+        node?._debugSource?.lineNumber +
+        node?._debugSource?.columnNumber +
+        node?._debugSource?.fileName
+      }+${node?.subtreeFlags}+${node?.flags}+${node?.memoizedProps ? JSON.stringify(Object.keys(node.memoizedProps)) : ""}`;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getReactFibreNodeInfo = (reactFibreNode: any) => {
   let type = "";
   if (typeof reactFibreNode.type === "function") {
@@ -27,7 +38,11 @@ const getReactFibreNodeInfo = (reactFibreNode: any) => {
   } else {
     elementType = reactFibreNode.elementType?.toString?.();
   }
+  if (elementType === "Object") {
+    elementType = reactFibreNode.elementType.render.displayName || reactFibreNode.elementType.render.name.toString();
+  }
 
+  const debugFirstTimeStamp = `${new Date().getTime()}_${Math.random()}`;
   const debugType = reactFibreNode?.stateNode?._debugRootType;
   const isText = reactFibreNode?.stateNode?.nodeName === "#text";
   const domNode = reactFibreNode?.stateNode?.nodeName;
@@ -35,10 +50,11 @@ const getReactFibreNodeInfo = (reactFibreNode: any) => {
   const fileName = reactFibreNode?._debugSource?.fileName || "";
   const isNodeModule = fileName.includes("node_modules");
 
-  const nodeId = elemToSelector(reactFibreNode.stateNode);
+  const nodeId = getNodeId(reactFibreNode.stateNode, reactFibreNode);
 
   const nodeData: TreeNode = {
     nodeId,
+    debugFirstTimeStamp,
     elementType: !isText ? elementType || debugType || "null" : "string",
     type: type || "null",
     isDom: !type,
@@ -56,6 +72,7 @@ const getReactFibreNodeInfo = (reactFibreNode: any) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getFibreTree = (root: any) => {
+  console.log("getFibreTree");
   const queue = [root];
   const list = [];
   const seen = new Set();
@@ -84,25 +101,29 @@ export const getFibreTree = (root: any) => {
       nodeData.type !== "DebuggerApp" &&
       nodeData.elementType !== "DebuggerApp"
     ) {
-      if (node.sibling) {
-        queue.push(node.sibling);
-      }
-
       // scan children, makeIds
       if (node.child) {
         let child = node.child;
+        // start at a child then grab all the siblings of that child to scan next
         while (child) {
           // console.log(nodeData.nodeId, elemToSelector(child), child);
           if (child) {
-            const id = getReactFibreNodeInfo(child)?.nodeId || elemToSelector(child);
+            const id = getNodeId(child.stateNode, child);
             nodeData.childIds.push(id);
-            queue.push(child);
+
+            if (!seen.has(child.nodeId)) {
+              queue.push(child);
+            }
           }
           child = child.sibling;
         }
       }
 
       list.push(nodeData);
+      index += 1;
+    }
+    if (node.sibling) {
+      queue.push(node.sibling);
     }
     index += 1;
   }
