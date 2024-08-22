@@ -10,7 +10,8 @@ export const getReactContainer = (nativeElement: Element) => {
     console.error("React container not found");
   }
 
-  // @ts-expect-error - bs typings
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore - bs typings
   const containerNode = nativeElement[reactContainer];
 
   return containerNode;

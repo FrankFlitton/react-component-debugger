@@ -1,14 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import DebuggerApp from "./debugger/DebuggerApp.tsx";
+import DebuggerApp from "./lib/DebuggerApp.tsx";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
     <App />
-    <DebuggerApp />
-  </React.StrictMode>
+    <DebuggerApp debug />
+  </StrictMode>
 );
 
 // setTimeout(() => {

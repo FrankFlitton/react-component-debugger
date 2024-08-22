@@ -18,7 +18,9 @@ const TreeNodeContext = createContext<TreeNodeContextProps>({
   getParentNode: () => [],
 });
 
-const TreeNodeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+const TreeNodeProvider: React.FC<{ debug:boolean, children: ReactNode }> = ({ debug, children }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_debug] = useState<boolean>(debug);
   const [treeNodes, setTreeNodes] = useState<TreeNode[]>([]);
 
   const addNode = (node: TreeNode) => {

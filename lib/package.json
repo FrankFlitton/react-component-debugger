@@ -1,0 +1,52 @@
+{
+  "name": "react-component-debugger",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/react-component-debugger.es.js",
+      "require": "./dist/react-component-debugger.umd.js",
+      "styles": "./dist/style.css"
+    },
+    "./css": "./dist/style.css"
+  },
+  "main": "./dist/react-component-debugger.umd.js",
+  "module": "./dist/react-component-debugger.es.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build && build:types",
+    "build:types": "npx -p typescript tsc ./src/lib/index.ts --declaration --allowJs --emitDeclarationOnly --esModuleInterop --jsx react-jsx --outFile dist/index.d.ts --module ESNext --moduleResolution bundler --resolveJsonModule --skipLibCheck --strict --target ESNext",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite-plugin-css-injected-by-js": "^3.5.1",
+    "vite-plugin-dts": "^4.0.3"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/node": "^22.5.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.13.1",
+    "@typescript-eslint/parser": "^7.13.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "postcss": "^8.4.39",
+    "postcss-nested": "^6.2.0",
+    "postcss-nesting": "^12.1.5",
+    "rollup-plugin-typescript-paths": "^1.5.0",
+    "tailwindcss": "^3.4.6",
+    "tslib": "^2.6.3",
+    "typescript": "^5.2.2",
+    "vite": "^5.3.1"
+  }
+}

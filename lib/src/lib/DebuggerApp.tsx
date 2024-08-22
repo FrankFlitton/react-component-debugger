@@ -2,9 +2,14 @@ import { DebuggerUI } from "./DebuggerUI";
 import { TreeNodeProvider } from "./contexts/TreeNodeContext";
 import "./global.css";
 
-const DebuggerApp = () => {
+export interface DebuggerAppProps {
+  // TODO
+  debug?: boolean;
+}
+
+const DebuggerApp = ({ debug }: DebuggerAppProps) => {
   return (
-    <TreeNodeProvider>
+    <TreeNodeProvider debug={!!debug}>
       <DebuggerUI />
     </TreeNodeProvider>
   );
