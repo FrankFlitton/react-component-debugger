@@ -4,7 +4,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import theme from "./theme";
 import App from "./App";
-import { DebuggerApp } from "react-component-debugger/src/lib/index";
+import { DebuggerApp } from "react-component-debugger";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

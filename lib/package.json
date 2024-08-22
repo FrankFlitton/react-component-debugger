@@ -5,16 +5,11 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/react-component-debugger.es.js",
-      "require": "./dist/react-component-debugger.umd.js",
-      "styles": "./dist/style.css"
-    },
-    "./css": "./dist/style.css"
+      "import": "./src/lib"
+    }
   },
-  "main": "./dist/react-component-debugger.umd.js",
-  "module": "./dist/react-component-debugger.es.js",
-  "types": "./dist/index.d.ts",
+  "main": "./src/lib",
+  "module": "./src/lib",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build && build:types",
