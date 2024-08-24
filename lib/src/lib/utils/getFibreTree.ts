@@ -14,6 +14,10 @@ const getNodeId = (stateNode: any, node: any) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getReactFibreNodeInfo = (reactFibreNode: any) => {
+
+  // Detailed React Fiber Tree Types:
+  // https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactInternalTypes.js#L94
+
   let type = "";
   if (typeof reactFibreNode.type === "function") {
     type =
@@ -76,6 +80,16 @@ export const getFibreTree = (root: any) => {
   const queue = [root];
   const list = [];
   const seen = new Set();
+
+  // Detailed React Fiber Tree Types:
+  // https://github.com/facebook/react/blob/main/packages/react-reconciler/src/ReactInternalTypes.js#L94
+
+  // TODO: consider debug owners.
+  // Internal browser generics should be able to find the parent node
+  //
+  // return internalInstance._debugOwner
+  //   ? internalInstance._debugOwner.stateNode
+  //   : internalInstance.return.stateNode;
 
   let index = 0;
   while (queue.length) {
